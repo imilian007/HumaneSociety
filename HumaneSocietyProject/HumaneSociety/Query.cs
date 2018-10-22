@@ -40,25 +40,35 @@ namespace HumaneSociety
         }
 
 
-        //internal static Room GetRoom(int animalId)
-        //{
-        //    return db.Rooms.
-        //}
+        internal static Room GetRoom(int animalId)
+        {
+            var query =
+                from Room in db.Rooms
+                where Room.Animal.AnimalId == animalId
+                select Room;
+                
+            foreach(Room room in query)
+            {
+                return room;
+            }
 
-        //internal static IQueryable<Animal> SearchForAnimalByMultipleTraits()
-        //{
-        //    throw new NotImplementedException();
-        //}
+            return null;
+        }
 
-        //internal static void Adopt(object animal, Client client)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        internal static IQueryable<Animal> SearchForAnimalByMultipleTraits()
+        {
+            throw new NotImplementedException();
+        }
 
-        //internal static object GetAnimalByID(int iD)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        internal static void Adopt(object animal, Client client)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static object GetAnimalByID(int iD)
+        {
+            throw new NotImplementedException();
+        }
 
         internal static Client GetClient(string userName, string password)
         {
@@ -76,10 +86,10 @@ namespace HumaneSociety
             return returnClient;
         }
 
-        //internal static IQueryable<Animal> GetUserAdoptionStatus(Client client)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        internal static IQueryable<Animal> GetUserAdoptionStatus(Client client)
+        {
+            throw new NotImplementedException();
+        }
 
 
         //internal static List<Adoption> GetPendingAdoptions()
@@ -142,7 +152,8 @@ namespace HumaneSociety
             client.Address.AddressLine1 = streetAddress;
             client.Address.Zipcode = zipCode;
             db.Clients.InsertOnSubmit(client);
-            
+            db.SubmitChanges();
+
         }
 
         internal static void updateClient(Client client)
@@ -234,6 +245,19 @@ namespace HumaneSociety
             }
 
             return null;
+        }
+
+        internal static void UpdateShot(string shotType, Animal animal)
+        {
+            AnimalShot animalShot = new AnimalShot();
+            var query =
+                db.Shots.Where(n => n.Name == shotType).Single();
+            animalShot.ShotId = query.ShotId;
+            animalShot.DateReceived = new DateTime();
+            animalShot.AnimalId = animal.AnimalId;
+
+            db.AnimalShots.InsertOnSubmit(animalShot);
+            db.SubmitChanges();
         }
     }
 }

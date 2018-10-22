@@ -45,11 +45,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Admin.cs" />
+    <Compile Include="Customer.cs" />
     <Compile Include="HumaneSociety.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HumaneSociety.dbml</DependentUpon>
     </Compile>
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="PointOfEntry.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -60,9 +64,13 @@
     </Compile>
     <Compile Include="Query.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="UserEmployee.cs" />
+    <Compile Include="UserInterface.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="bin\Debug\HumaneSociety.exe.config" />
+    <None Include="bin\Debug\HumaneSociety.vshost.exe.config" />
+    <None Include="bin\Debug\HumaneSociety.vshost.exe.manifest" />
     <None Include="HumaneSociety.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>HumaneSociety.designer.cs</LastGenOutput>
@@ -78,6 +86,11 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\HumaneSociety.exe" />
+    <Content Include="bin\Debug\HumaneSociety.pdb" />
+    <Content Include="bin\Debug\HumaneSociety.vshost.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
