@@ -233,7 +233,7 @@ namespace HumaneSociety
                 return;
             }
             var animal = animals[0];
-            List<string> options = new List<string>() { "Animal found:", animal.Name, animal.Species.Name, "would you like to delete?" };
+            List<string> options = new List<string>() { "Animal found:", animal.Name, animal.Specy.Name, "would you like to delete?" };
             if ((bool)UserInterface.GetBitData(options))
             {
                 Query.RemoveAnimal(animal);
@@ -243,16 +243,17 @@ namespace HumaneSociety
         {
             Console.Clear();
             Animal animal = new Animal();
-
-            animal.SpeciesID = Query.GetSpecies();
+            String userInput = UserInterface.GetStringData("Species", "The animal's");
+            animal.SpeciesId = Query.GetSpecies(userInput);
             animal.Name = UserInterface.GetStringData("name", "the animal's");
             animal.Age = UserInterface.GetIntegerData("age", "the animal's");
             animal.Demeanor = UserInterface.GetStringData("demeanor", "the animal's");
             animal.KidFriendly = UserInterface.GetBitData("the animal", "child friendly");
             animal.PetFriendly = UserInterface.GetBitData("the animal", "pet friendly");
             animal.Weight = UserInterface.GetIntegerData("the animal", "the weight of the");
-            animal.DietPlan= Query.GetDietPlan();
-            Query.AddAnimal(animal);
+            String userInput1 = UserInterface.GetStringData("Diet Plan", "The animal's");
+            animal.DietPlanId = Query.GetDietPlan(userInput1);
+            Query.AddAnimal(animal.SpeciesId, animal.Name, animal.Age, animal.Demeanor, animal.KidFriendly, animal.PetFriendly, animal.Weight, animal.DietPlanId);
         }
         protected override void LogInPreExistingUser()
         {
