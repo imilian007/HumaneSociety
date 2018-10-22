@@ -51,7 +51,7 @@ namespace HumaneSociety
             var searchParameters = UserInterface.GetAnimalCriteria();
             if (searchParameters.ContainsKey(1))
             {
-                animals = (from animal in animals where animal.Species.Name == searchParameters[1] select animal);
+                animals = (from animal in animals where animal.Specy.Name == searchParameters[1] select animal);
             }
             if (searchParameters.ContainsKey(2))
             {
