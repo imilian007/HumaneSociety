@@ -43,7 +43,17 @@ namespace HumaneSociety
 
         internal static Room GetRoom(int animalId)
         {
-            throw new NotImplementedException();
+            var query =
+                from Room in db.Rooms
+                where Room.Animal.AnimalId == animalId
+                select Room;
+
+            foreach (Room room in query)
+            {
+                return room;
+            }
+
+            return null;
         }
 
         internal static IQueryable<Animal> SearchForAnimalByMultipleTraits()
@@ -60,7 +70,6 @@ namespace HumaneSociety
         {
             throw new NotImplementedException();
         }
-
         public static void AddAnimal(Animal animal)
         {
             db.Animals.InsertOnSubmit(animal);
@@ -90,6 +99,39 @@ namespace HumaneSociety
         }
 
 
+        //internal static List<Adoption> GetPendingAdoptions()
+        //{
+        //    List<Adoption> adaptionList = new List<Adoption>();
+        //    using (SqlConnection conn = new SqlConnection("Server=(local);DataBase=HumaneSociety;Integrated Security=SSPI"))
+        //    {
+        //        conn.Open();
+
+        //        // 1.  create a command object identifying the stored procedure
+        //        SqlCommand cmd = new SqlCommand("GetPendingAdoptionsSP", conn);
+
+        //        // 2. set the command object so it knows to execute a stored procedure
+        //        cmd.CommandType = CommandType.StoredProcedure;
+
+        //        // 3. add parameter to command, which will be passed to the stored procedure
+        //        //cmd.Parameters.Add(new SqlParameter("@UserId", userId));
+
+        //        // execute the command
+
+        //        Adoption adapt = new Adoption();
+        //        using (SqlDataReader rdr = cmd.ExecuteReader())
+        //        {
+        //            // iterate through results, printing each to console
+        //            while (rdr.Read())
+        //            {
+        //                //Console.WriteLine("Product: {0,-35} Total: {1,2}", rdr["ProductName"], rdr["Total"]);
+
+        //                adapt.ApprovalStatus = rdr["ApprovalStatus"].ToString();
+        //                adapt.PaymentCollected = Convert.ToBoolean(rdr["PaymentCollected"]);
+        //                adaptionList.Add(adapt);
+        //            }
+        //        }
+
+
 
         internal static IEnumerable<Client> RetrieveClients()
         {
@@ -114,7 +156,7 @@ namespace HumaneSociety
             client.Address.AddressLine1 = streetAddress;
             client.Address.Zipcode = zipCode;
             db.Clients.InsertOnSubmit(client);
-
+            db.SubmitChanges();
         }
 
         internal static void updateClient(Client client)
@@ -208,6 +250,19 @@ namespace HumaneSociety
             return null;
         }
 
+        internal static void UpdateShot(string shotType, Animal animal)
+        {
+            AnimalShot animalShot = new AnimalShot();
+            var query =
+                db.Shots.Where(n => n.Name == shotType).Single();
+            animalShot.ShotId = query.ShotId;
+            animalShot.DateReceived = new DateTime();
+            animalShot.AnimalId = animal.AnimalId;
+
+            db.AnimalShots.InsertOnSubmit(animalShot);
+            db.SubmitChanges();
+        }
+
         internal static void ImportCSVfile(string file)
         {
 
@@ -255,7 +310,6 @@ namespace HumaneSociety
         {
             var query = db.Animals.Where(a => a.DietPlan.Name == userInput1).Single();
             return query.DietPlanId;
-
         }
 
         internal static void AddAnimal(int? speciesId, string name, int? age, string demeanor, bool? kidFriendly, bool? petFriendly, int? weight, int? dietPlanId)
@@ -281,7 +335,9 @@ namespace HumaneSociety
         {
             return db.Employees.Where(e => e.Equals(userName) && e.Equals(password)).Single();
         }
-        public static void AddUsernameAndPassword(employee)
+
+        internal static void AddUsernameAndPassword(Employee employee)
+
         {
             db.Employees.InsertOnSubmit(employee);
             db.SubmitChanges();
@@ -294,7 +350,28 @@ namespace HumaneSociety
             {
                 return true;
             }
+            return false;
             
         }
+
+        internal static void UpdateAdoption(bool a, Adoption adoption)
+        {
+            if (a)
+            {
+                adoption.ApprovalStatus = "Approved";
+            }
+            else
+            {
+                adoption.ApprovalStatus = "Denied";
+            }
+            db.SubmitChanges();
+
+        }
+
+        internal static IQueryable<Adoption> GetPendingAdoptions()
+        {
+            return db.Adoptions.Where(a => a.ApprovalStatus == "Pending");
+        }
+
     }
 }
