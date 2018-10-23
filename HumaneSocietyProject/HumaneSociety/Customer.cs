@@ -91,7 +91,7 @@ namespace HumaneSociety
                 List<string> Adoptions = new List<string>();
                 foreach(Adoption adoption in pendingAdoptions)
                 {
-                    Adoptions.Add(adoption.Animal.Name + " " + adoption.Animal.Species.Name + " " + adoption.ApprovalStatus);
+                    Adoptions.Add(adoption.Animal.Name + " " + adoption.Animal.Specy.Name + " " + adoption.ApprovalStatus);
                 }
                 UserInterface.DisplayUserOptions(Adoptions);
                 UserInterface.DisplayUserOptions("press enter to continue");
@@ -158,7 +158,7 @@ namespace HumaneSociety
             UserInterface.DisplayUserOptions("Please enter a username");
             string username = UserInterface.GetUserInput();
             var clients = Query.RetrieveClients();
-            var clientUsernames = from client in clients select client.userName;
+            var clientUsernames = from client in clients select client.UserName;
             if (CheckForForValue(clientUsernames.ToList(), username))
             {
                 Console.Clear();
@@ -178,7 +178,7 @@ namespace HumaneSociety
         public static string GetEmail()
         {
             var clients = Query.RetrieveClients();
-            var clientEmails = from client in clients select client.email;
+            var clientEmails = from client in clients select client.Email;
             UserInterface.DisplayUserOptions("Please enter your email");
             string email = UserInterface.GetUserInput();
             if (email.Contains("@") && email.Contains("."))
@@ -205,18 +205,18 @@ namespace HumaneSociety
             string state = UserInterface.GetUserInput();
             var states = Query.GetStates();
             var stateNames = from territory in states select territory.Name.ToLower();
-            var stateAbrreviations = from territory in states select territory.abbrev;
+            var stateAbrreviations = from territory in states select territory.Abbreviation;
             if (stateNames.ToList().Contains(state.ToLower()) || stateAbrreviations.ToList().Contains(state.ToUpper()))
             {
                 try
                 {
-                    var stateReturn = from territory in states where territory.name.ToLower() == state.ToLower() select territory.ID;
+                    var stateReturn = from territory in states where territory.Name.ToLower() == state.ToLower() select territory.ID;
                     int stateNumber = stateReturn.ToList()[0];
                     return stateNumber;
                 }
                 catch
                 {
-                    var stateReturn = from territory in states where territory.abbrev == state.ToUpper() select territory.ID;
+                    var stateReturn = from territory in states where territory.Abbreviation == state.ToUpper() select territory.ID;
                     int stateNumber = stateReturn.ToList()[0];
                     return stateNumber;
                 }
@@ -233,7 +233,7 @@ namespace HumaneSociety
             try
             {
                 var clients = Query.RetrieveClients();
-                var clientUsernames = from client in clients select client.userName;
+                var clientUsernames = from client in clients select client.UserName;
                 string username = GetUserName();
                 string email = GetEmail();
                 Console.Clear();

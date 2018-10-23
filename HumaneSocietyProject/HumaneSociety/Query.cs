@@ -281,16 +281,20 @@ namespace HumaneSociety
         {
             return db.Employees.Where(e => e.Equals(userName) && e.Equals(password)).Single();
         }
-        internal static Employee AddUsernameAndPassword(employee)
+        public static void AddUsernameAndPassword(employee)
         {
             db.Employees.InsertOnSubmit(employee);
-            yield return employee;
+            db.SubmitChanges();
         }
 
 
         internal static bool CheckEmployeeUserNameExist(string username)
         {
-            return db.Employees.Where(e => e.Equals(username)).ToLookup();
+           if(db.Employees.Where(e => e.Equals(username)).ToList().Count == 1)
+            {
+                return true;
+            }
+            
         }
     }
 }
